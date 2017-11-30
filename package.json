@@ -1,0 +1,64 @@
+{
+  "name": "fix-json",
+  "displayName": "Fix JSON",
+  "description": "Fix JSON content using jsonic",
+  "version": "0.0.1",
+  "publisher": "oliversturm",
+  "engines": {
+    "vscode": "^1.18.0"
+  },
+  "categories": ["Other", "Formatters"],
+  "keywords": ["JSON", "fix", "format"],
+  "activationEvents": ["onCommand:fixJson.fix"],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "fixJson.fix",
+        "title": "Fix JSON"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Fix JSON configuration",
+      "properties": {
+        "fixJson.indentationSpaces": {
+          "type": "number",
+          "default": 2,
+          "description":
+            "Number of spaces to use for indentation of formatted JSON output"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "eslint": "^4.6.1",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "jsonic": "^0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oliversturm/vscode-fix-json.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oliversturm/vscode-fix-json/issues"
+  },
+  "homepage":
+    "https://github.com/oliversturm/vscode-fix-json/blob/master/README.md",
+  "license": "MIT",
+  "author": "Oliver Sturm <oliver@oliversturm.com>",
+  "galleryBanner": {
+    "color": "#ff7f0f",
+    "theme": "dark"
+  },
+  "icon": "images/icon.svg"
+}
