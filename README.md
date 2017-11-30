@@ -1,65 +1,49 @@
-# fix-json README
+# fix-json
 
-This is the README for your extension "fix-json". After writing up a brief description, we recommend including the following sections.
+`fix-json` uses [jsonic](https://github.com/rjrodger/jsonic) to parse json data
+in the current editor, then reformats the content using a simple
+`JSON.stringify` call.
+
+You can enter JSON data using the
+[relaxed rules](https://github.com/rjrodger/jsonic#user-content-relaxed-rules)
+supported by jsonic. For instance, quotes around property names and many string
+values are not required. This makes it much easier to type JSON, or to convert
+JavaScript objects into valid JSON.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Simply run the `Fix JSON` command in VS Code to fix either the selected content
+in the current file, or the complete file if there is no selection.
 
-For example if there is an image subfolder under your extension project workspace:
+![Running Fix JSON](images/run.gif)
 
-\!\[feature X\]\(images/feature-x.png\)
+### Error detection
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+If errors are encountered during the process of parsing your existing content,
+they will be visualized in the editor.
 
-## Requirements
+![Running with an error](images/run-with-error.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Indentation
+
+The extension indents the generated JSON using a default number of spaces as
+configured in your `editor.tabSize` setting. You can use the setting
+`fixJson.indentationSpaces` to override the number specifically for this
+extension.
+
+No effort is made to provide formatting beyond the standard output from
+`JSON.stringify(text, null, indentation)`. I recommend using
+[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* `fixJson.indentationSpaces`: Number of spaces to use for indentation of
+  formatted JSON output. If not set, your editor.tabSize setting is used.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of fix-json.
