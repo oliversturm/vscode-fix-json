@@ -27,9 +27,9 @@ const fix = options => (editor, edit) => {
     ? document.getText()
     : document.getText(selection);
 
-  const indentation = workspace
-    .getConfiguration('fixJson')
-    .get('indentationSpaces');
+  const indentation =
+    workspace.getConfiguration('fixJson').get('indentationSpaces') ||
+    workspace.getConfiguration('editor', null).get('tabSize');
   const result = fixText(text, { indentation });
   if (result.status === 'ok') {
     edit.replace(

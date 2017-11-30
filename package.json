@@ -23,10 +23,10 @@
       "title": "Fix JSON configuration",
       "properties": {
         "fixJson.indentationSpaces": {
-          "type": "number",
-          "default": 2,
+          "type": ["number", "null"],
+          "default": null,
           "description":
-            "Number of spaces to use for indentation of formatted JSON output"
+            "Number of spaces to use for indentation of formatted JSON output. If not set, your editor.tabSize setting is used."
         }
       }
     }
