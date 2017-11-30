@@ -8,19 +8,20 @@ const fixText = (text, options) => {
       text: JSON.stringify(jsonic(text), null, options.indentation)
     };
   } catch (e) {
-    let result = { status: 'error', error: e.message };
+    let result = { status: 'error', error: { message: e.message } };
     if (e.name === 'SyntaxError') {
-      result = Object.assign({}, result, {
+      result.error = Object.assign({}, result.error, {
         line: e.line,
         column: e.column,
-        error: `(${e.line}, ${e.column}) ${result.error}`
+        foundLength: e.found.length,
+        message: `(${e.line}, ${e.column}) ${result.error.message}`
       });
     }
     return result;
   }
 };
 
-const fix = (editor, edit) => {
+const fix = options => (editor, edit) => {
   const { selection, document } = editor;
   const text = selection.isEmpty
     ? document.getText()
@@ -29,22 +30,41 @@ const fix = (editor, edit) => {
   const indentation = workspace
     .getConfiguration('fixJson')
     .get('indentationSpaces');
-  const fixedText = fixText(text, { indentation });
-  if (fixedText.status === 'ok') {
+  const result = fixText(text, { indentation });
+  if (result.status === 'ok') {
     edit.replace(
       selection.isEmpty
         ? new Range(new Position(0, 0), new Position(document.lineCount, 0))
         : selection,
-      fixedText.text
+      result.text
     );
+    editor.setDecorations(options.decoration, []);
   } else {
-    window.showInformationMessage(`Fixing failed: ${fixedText.error}`);
+    window.setStatusBarMessage(`Fixing failed: ${result.error.message}`, 5000);
+    editor.setDecorations(options.decoration, [
+      {
+        range: new Range(
+          new Position(result.error.line - 1, result.error.column - 1),
+          new Position(
+            result.error.line - 1,
+            result.error.column - 1 + result.error.foundLength
+          )
+        ),
+        hoverMessage: result.error.message
+      }
+    ]);
   }
 };
 
 function activate(context) {
-  let disposable = commands.registerTextEditorCommand('fixJson.fix', fix);
-  context.subscriptions.push(disposable);
+  const decoration = window.createTextEditorDecorationType({
+    color: 'white',
+    backgroundColor: 'red'
+  });
+  context.subscriptions.push(decoration);
+  context.subscriptions.push(
+    commands.registerTextEditorCommand('fixJson.fix', fix({ decoration }))
+  );
 }
 exports.activate = activate;
 
