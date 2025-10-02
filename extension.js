@@ -1,25 +1,5 @@
 const { Range, Position, window, commands, workspace, languages, Diagnostic, DiagnosticSeverity, TextEdit } = require('vscode');
-const jsonic = require('jsonic');
-
-const fixText = (text, options) => {
-  try {
-    return {
-      status: 'ok',
-      text: JSON.stringify(jsonic(text), null, options.indentation)
-    };
-  } catch (e) {
-    let result = { status: 'error', error: { message: e.message } };
-    if (e.name === 'SyntaxError') {
-      result.error = Object.assign({}, result.error, {
-        line: e.line,
-        column: e.column,
-        foundLength: e.found.length,
-        message: `(${e.line}, ${e.column}) ${result.error.message}`
-      });
-    }
-    return result;
-  }
-};
+const fixText = require('./lib/fixText');
 
 // Helpers shared by command and formatting provider
 const getIndentation = (document, formattingOptions) => {
