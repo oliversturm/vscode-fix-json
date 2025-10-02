@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -25,13 +29,11 @@ jobs:
         run: npm run package
 
       - name: Publish to VS Code Marketplace
-        if: ${{ secrets.VSCE_PAT != '' }}
         run: npm run publish:ms
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX
-        if: ${{ secrets.OVSX_PAT != '' }}
         run: npm run publish:ovsx -- --skip-duplicate
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
