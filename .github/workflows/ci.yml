@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ main ]
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -36,3 +38,4 @@ jobs:
         with:
           name: fix-json-vsix
           path: '*.vsix'
+          retention-days: 14
