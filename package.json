@@ -31,14 +31,14 @@
             "editor/context": [
                 {
                     "command": "fixJson.fix",
-                    "when": "editorLangId == json || editorLangId == jsonc",
+                    "when": "editorLangId == json",
                     "group": "navigation@9"
                 }
             ],
             "editor/title": [
                 {
                     "command": "fixJson.fix",
-                    "when": "editorLangId == json || editorLangId == jsonc",
+                    "when": "editorLangId == json",
                     "group": "navigation@9"
                 }
             ]
