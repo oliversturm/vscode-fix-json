@@ -48,7 +48,7 @@ function activate(context) {
   const provider = languages.registerDocumentFormattingEditProvider(
     [{ language: 'json' }],
     {
-      provideDocumentFormattingEdits(document, options, token) {
+      provideDocumentFormattingEdits(document, options /*,token*/) {
         const indentation = getIndentation(document, options);
         const result = fixText(document.getText(), { indentation });
         if (result.status === 'ok') {

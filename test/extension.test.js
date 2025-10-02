@@ -63,12 +63,12 @@ describe('fixText', function() {
   });
 
   it('understands strings with quotes', function() {
-    const source = `{ text: "He said \\\"hi\\\"" }`;
+    const source = `{ text: "He said \\"hi\\"" }`;
     const res = fixText(source, { indentation: 2 });
     assert.strictEqual(res.status, 'ok');
     assert.strictEqual(
       res.text,
-      '{\n  "text": "He said \\\"hi\\\""\n}'
+      '{\n  "text": "He said \\"hi\\""\n}'
     );
   });
 
