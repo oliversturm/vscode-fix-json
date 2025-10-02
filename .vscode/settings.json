@@ -1,3 +1,26 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#917fea",
+    "activityBar.background": "#917fea",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#a4321b",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "panel.border": "#917fea",
+    "sash.hoverBorder": "#917fea",
+    "sideBar.border": "#917fea",
+    "statusBar.background": "#6c53e3",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#917fea",
+    "statusBarItem.remoteBackground": "#6c53e3",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "tab.activeBorder": "#917fea",
+    "titleBar.activeBackground": "#6c53e3",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#6c53e399",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#6c53e3"
 }
