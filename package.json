@@ -2,7 +2,7 @@
     "name": "fix-json",
     "displayName": "Fix JSON",
     "description": "Fix JSON content using jsonic",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "publisher": "oliversturm",
     "engines": {
         "vscode": "^1.75.0"

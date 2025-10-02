@@ -4,6 +4,8 @@ All notable changes to the "fix-json" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-10-02
+
 ### Added
 - Document formatting integration for JSON via `DocumentFormattingEditProvider`.
 - Theme-aware error reporting using VS Code Diagnostics (squiggles).
