@@ -6,3 +6,8 @@ jsconfig.json
 vsc-extension-quickstart.md
 .eslintrc.json
 images/*.gif
+**/*.map
+.github/**
+.editorconfig
+.eslintignore
+

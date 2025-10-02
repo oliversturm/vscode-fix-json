@@ -5,7 +5,7 @@
     "version": "0.1.2",
     "publisher": "oliversturm",
     "engines": {
-        "vscode": "^1.18.0"
+        "vscode": "^1.75.0"
     },
     "categories": [
         "Other",
@@ -17,7 +17,7 @@
         "format"
     ],
     "activationEvents": [
-        "onCommand:fixJson.fix"
+        "onLanguage:json"
     ],
     "main": "./extension",
     "contributes": {
@@ -27,6 +27,22 @@
                 "title": "Fix JSON"
             }
         ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "fixJson.fix",
+                    "when": "editorLangId == json",
+                    "group": "navigation@9"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "fixJson.fix",
+                    "when": "editorLangId == json",
+                    "group": "navigation@9"
+                }
+            ]
+        },
         "configuration": {
             "type": "object",
             "title": "Fix JSON configuration",
@@ -43,15 +59,19 @@
         }
     },
     "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+        "lint": "eslint .",
+        "test": "mocha \"test/**/*.test.js\"",
+        "package": "npx @vscode/vsce package --no-yarn",
+        "publish:ms": "npx @vscode/vsce publish --no-yarn",
+        "publish:ovsx": "ovsx publish"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "eslint": "^4.6.1",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "@eslint/js": "^9.11.0",
+        "@vscode/vsce": "^3.6.2",
+        "eslint": "^9.11.0",
+        "globals": "^16.4.0",
+        "mocha": "^11.7.4",
+        "ovsx": "^0.10.6"
     },
     "dependencies": {
         "jsonic": "^0.3.0"
