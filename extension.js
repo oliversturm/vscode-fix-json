@@ -1,4 +1,4 @@
-const { Range, Position, window, commands, workspace } = require('vscode');
+const { Range, Position, window, commands, workspace, languages, Diagnostic, DiagnosticSeverity } = require('vscode');
 const jsonic = require('jsonic');
 
 const fixText = (text, options) => {
@@ -29,7 +29,7 @@ const fix = options => (editor, edit) => {
 
   const indentation =
     workspace.getConfiguration('fixJson').get('indentationSpaces') ||
-    workspace.getConfiguration('editor', null).get('tabSize');
+    workspace.getConfiguration('editor', document.uri).get('tabSize');
   const result = fixText(text, { indentation });
   if (result.status === 'ok') {
     edit.replace(
@@ -38,32 +38,27 @@ const fix = options => (editor, edit) => {
         : selection,
       result.text
     );
-    editor.setDecorations(options.decoration, []);
+    // Clear diagnostics on success
+    options.diagnostics.set(document.uri, []);
   } else {
     window.setStatusBarMessage(`Fixing failed: ${result.error.message}`, 5000);
-    editor.setDecorations(options.decoration, [
-      {
-        range: new Range(
-          new Position(result.error.line - 1, result.error.column - 1),
-          new Position(
-            result.error.line - 1,
-            result.error.column - 1 + result.error.foundLength
-          )
-        ),
-        hoverMessage: result.error.message
-      }
-    ]);
+    const range = new Range(
+      new Position(result.error.line - 1, result.error.column - 1),
+      new Position(
+        result.error.line - 1,
+        result.error.column - 1 + result.error.foundLength
+      )
+    );
+    const diag = new Diagnostic(range, result.error.message, DiagnosticSeverity.Error);
+    options.diagnostics.set(document.uri, [diag]);
   }
 };
 
 function activate(context) {
-  const decoration = window.createTextEditorDecorationType({
-    color: 'white',
-    backgroundColor: 'red'
-  });
-  context.subscriptions.push(decoration);
+  const diagnostics = languages.createDiagnosticCollection('fix-json');
+  context.subscriptions.push(diagnostics);
   context.subscriptions.push(
-    commands.registerTextEditorCommand('fixJson.fix', fix({ decoration }))
+    commands.registerTextEditorCommand('fixJson.fix', fix({ diagnostics }))
   );
 }
 exports.activate = activate;
