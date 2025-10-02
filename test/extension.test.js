@@ -1,29 +1,41 @@
-//
-// Note: This example test is leveraging the Mocha test framework.
-// Please refer to their documentation on https://mochajs.org/ for help.
-//
-
-// The module 'assert' provides assertion methods from node
+// Mocha tests for fixText
 const assert = require('assert');
+const fixText = require('../lib/fixText');
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-const vscode = require('vscode');
-const fixText = require('../extension').fixText;
+describe('fixText', function() {
+  it('formats relaxed JSON object with default indentation (2)', function() {
+    const source = `{
+      int: 42,
+      text: some text
+    }`;
+    const res = fixText(source, { indentation: 2 });
+    assert.strictEqual(res.status, 'ok');
+    assert.strictEqual(
+      res.text,
+      '{\n  "int": 42,\n  "text": "some text"\n}'
+    );
+  });
 
-// Defines a Mocha test suite to group tests of similar kind together
-// Decided not to test jsonic behavior.
-// suite('fixing', function() {
-//   const validSource = `[
-//         {
-//             int: 42,
-//             text: some text
-//         }
-//     ]`;
+  it('respects indentation override (4 spaces)', function() {
+    const source = `{ a: 1, b: 2 }`;
+    const res = fixText(source, { indentation: 4 });
+    assert.strictEqual(res.status, 'ok');
+    assert.strictEqual(
+      res.text,
+      '{\n    "a": 1,\n    "b": 2\n}'
+    );
+  });
 
-//   const validTarget = '[\n  {\n    "int": 42,\n    "text": "some text"\n  }\n]';
-
-//   test('correct object', function() {
-//     assert.equal(fixText(validSource), validTarget);
-//   });
-// });
+  it('returns error with line/column on syntax error', function() {
+    // this unterminated array forces an error
+    const bad = `{
+      items: [1, 2
+    }`;
+    const res = fixText(bad, { indentation: 2 });
+    assert.strictEqual(res.status, 'error');
+    // Ensure we have message and some location info
+    assert.ok(res.error && typeof res.error.message === 'string');
+    assert.ok(typeof res.error.line === 'number');
+    assert.ok(typeof res.error.column === 'number');
+  });
+});
